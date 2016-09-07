@@ -6,3 +6,6 @@ class Neuron:
 	
 	def __str__(self):
 		return str(self.weights)
+
+	def transfer(inputVector):
+		pass
