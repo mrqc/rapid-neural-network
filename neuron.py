@@ -24,10 +24,13 @@ class Neuron:
 			self.energy += inputVector[index] * self.weights[index]
 	
 	def activation(self):
-		a = 5
-		v = self.energy
-		self.activationValue = 1 / (1 + math.exp(-(a * v)))
-		if self.activationValue + self.threshold >= 0:
+		try:
+			a = 5
+			v = self.energy
+			self.activationValue = 1 / (1 + math.exp(-(a * v)))
+			if self.activationValue + self.threshold >= 0:
+				self.fire = 1
+			else:
+				self.fire = 0
+		except OverflowError:
 			self.fire = 1
-		else:
-			self.fire = 0
