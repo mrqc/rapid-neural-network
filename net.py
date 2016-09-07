@@ -12,12 +12,6 @@ class Net:
 	def addHiddenLayer(self, layer):
 		self.hiddenLayers.append(layer)
 	
-	def setInputLayer(self, layer):
-		self.inputLayer = layer
-	
-	def setOutputLayer(self, layer):
-		self.outputLayer = layer
-	
 	def __str__(self):
 		hiddenLayersString = ""
 		hiddenLayerCount = 0
@@ -25,3 +19,13 @@ class Net:
 			hiddenLayerCount += 1
 			hiddenLayersString += "Hidden Layer " + str(hiddenLayerCount) + ":\n" + str(hiddenLayer) + "\n" * 2
 		return "Input Layer:\n" + str(self.inputLayer) + "\n" * 2 + hiddenLayersString + "Output Layer:\n" + str(self.outputLayer)
+	
+	def getDefaultInputVector(self):
+		return [0 for _ in range(0, len(self.inputLayer.weights))]
+	
+	def perform(self):
+		# inputLayer is not transferred here, because the inputVector delivers
+		# already user input so the outputVector need not be calculated
+		for hiddenLayer in self.hiddenLayers:
+			hiddenLayer.transfer()
+		self.outputLayer.transfer()
