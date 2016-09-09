@@ -33,5 +33,5 @@ class Net:
 	
 	def backpropagate(self, targetOutputVector):
 		self.outputLayer.backpropagate(targetOutputVector)
-		for hiddenLayer in reversed(self.hiddenLayers):
-			hiddenLayer.backpropagate(hiddenLayer.getActivationVector())
+		#for hiddenLayer in reversed(self.hiddenLayers):
+		#	hiddenLayer.backpropagate(hiddenLayer.getActivationVector())

@@ -45,4 +45,5 @@ netOutputVector = [random.choice([0, 1]) for _ in range(0, len(outputLayer.neuro
 for trainCycle in range(0, 100):
 	print "Train cycle " + str(trainCycle)
 	net.backpropagate(netOutputVector)
+	print net.
 net.training = False

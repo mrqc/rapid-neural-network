@@ -27,40 +27,24 @@ class Neuron:
 	
 	def activation(self):
 		try:
-			a = 5
-			self.activationValue = 1 / (1 + math.exp(-(a * self.energy))) # sigmoid function
+			self.activationValue = 1 / (1 + math.exp(-self.energy)) # sigmoid function
 		except OverflowError:
 			self.activationValue = 1
-	
-	def backpropagate(self, targetOutputVector):
-		if len(targetOutputVector) != len(self.layer.getActivationVector()):
-			raise Exception('length of golden standard vector and current vector different')
-		learningRate = 0.0002
-		gradientDescentEpsilon = 0.003
-		updatedWeights = [weight for weight in self.weights]
-		lastError = self.cost(targetOutputVector, self.layer.getActivationVector())
-		newError = lastError + gradientDescentEpsilon
-		while math.fabs(newError - lastError) >= gradientDescentEpsilon:
-			weightDelta = [0 for _ in range(0, len(self.weights))]
-			for index in range(0, len(self.weights)):
-				weightDelta[index] = learningRate * self.costDerivative(targetOutputVector, self.layer.getActivationVector())
-			for index in range(0, len(self.weights)):
-				updatedWeights[index] = updatedWeights[index] - weightDelta[index]
-			newError = self.cost(targetOutputVector, self.layer.getActivationVector())
-			lastError = newError
-		self.trainedWeights = updatedWeights
-	
+
+	def activationGradient(self):
+		return self.activationValue * (1 - self.activationValue)
+
 	def updateWeights(self):
 		self.weights = self.trainedWeights
+	
+	def error(self, targetActivationValue):
+		return 0.5 * (targetActivationValue - self.activationValue) ** 2
 
-	def cost(self, hypothesis, current):
-		sum = 0
-		for index in range(0, len(hypothesis)):
-			sum += (hypothesis[index] - current[index]) ** 2
-		return sum / 2
-
-	def costDerivative(self, hypothesis, current):
-		sum = 0
-		for index in range(0, len(hypothesis)):
-			sum += (hypothesis[index] - current[index])
-		return sum / 2
+	def errorGradient(self, targetActivationValue):
+		return self.activationValue - targetActivationValue
+	
+	def backpropagate(self, errorTotal, targetActivationValue):
+		learningRate = 0.002
+		self.trainedWeights = [0 for _ in range(0, len(self.weights)]
+		for index in range(0, len(self.weights)):
+			self.trainedWeights[index] = self.weights[index] - learningRate * self.errorGradient(targetActivationValue) * self.activationGradient() * self.activationValue

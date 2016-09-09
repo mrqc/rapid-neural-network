@@ -45,16 +45,26 @@ class OutputLayer (Layer):
 		for neuron in self.neurons:
 			neuron.setCountOfWeights(len(self.previousLayer.neurons))
 	
-	def backpropagate(self, targetOutputVector):
-		for neuron in self.neurons:
-			neuron.backpropagate(targetOutputVector)
-
 	def transfer(self):
 		for neuron in self.neurons:
 			neuron.transfer()
 		for neuron in self.neurons:
 			neuron.activation()
 
+	def error(self, targetActivationVector):
+		sum = 0
+		activationVector = self.getActivationVector()
+		for index in range(0, len(targetActivationVector)):
+			sum += self.neurons[index].error(targetActivationVector[index])
+		return sum
+
+	def backpropagate(self, targetActivationVector):
+		learningRate = 0.0002
+		error = self.error(targetActivationVector):
+		outputDelta = [0 for _ in range(0, len(targetActivationVector))]
+		for index in range(0, len(self.neurons)):
+			self.neurons[index].backpropagate(error, targetActivationVector[index])
+			
 class HiddenLayer (InputLayer, OutputLayer):
 	def __init__(self, countOfNeurons, net):
 		super(HiddenLayer, self).__init__(countOfNeurons, net)
