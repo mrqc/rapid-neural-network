@@ -8,6 +8,7 @@ class Net:
 		self.inputLayer = None
 		self.hiddenLayers = []
 		self.outputLayer = None
+		self.training = False
 	
 	def addHiddenLayer(self, layer):
 		self.hiddenLayers.append(layer)
@@ -29,3 +30,8 @@ class Net:
 		for hiddenLayer in self.hiddenLayers:
 			hiddenLayer.transfer()
 		self.outputLayer.transfer()
+	
+	def backpropagate(self, targetOutputVector):
+		self.outputLayer.backpropagate(targetOutputVector)
+		for hiddenLayer in reversed(self.hiddenLayers):
+			hiddenLayer.backpropagate(hiddenLayer.getActivationVector())
