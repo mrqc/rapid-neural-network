@@ -18,20 +18,22 @@ class Net:
 		hiddenLayerCount = 0
 		for hiddenLayer in self.hiddenLayers:
 			hiddenLayerCount += 1
-			hiddenLayersString += "Hidden Layer " + str(hiddenLayerCount) + ":\n" + str(hiddenLayer) + "\n" * 2
-		return "Input Layer:\n" + str(self.inputLayer) + "\n" * 2 + hiddenLayersString + "Output Layer:\n" + str(self.outputLayer)
+			hiddenLayersString += "Hidden Layer " + str(hiddenLayerCount) + ":\n" + str(hiddenLayer) + "\n"
+		return "Input Layer:\n" + str(self.inputLayer) + "\n" + hiddenLayersString + "Output Layer:\n" + str(self.outputLayer)
 	
 	def getDefaultInputVector(self):
 		return [0 for _ in range(0, len(self.inputLayer.weights))]
 	
 	def perform(self):
-		# inputLayer is not transferred here, because the inputVector delivers
-		# already user input so the outputVector need not be calculated
 		for hiddenLayer in self.hiddenLayers:
 			hiddenLayer.transfer()
 		self.outputLayer.transfer()
 	
 	def backpropagate(self, targetOutputVector):
 		self.outputLayer.backpropagate(targetOutputVector)
-		#for hiddenLayer in reversed(self.hiddenLayers):
-		#	hiddenLayer.backpropagate(hiddenLayer.getActivationVector())
+		for hiddenLayer in reversed(self.hiddenLayers):
+			hiddenLayer.backpropagate(hiddenLayer.getActivationVector())
+		self.outputLayer.updateWeights()
+		for hiddenLayer in reversed(self.hiddenLayers):
+			hiddenLayer.updateWeights()
+		

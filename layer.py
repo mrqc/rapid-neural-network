@@ -27,13 +27,12 @@ class InputLayer (Layer):
 	def connectNextLayer(self, nextLayer):
 		self.nextLayer = nextLayer
 
-	def setEnergyVector(self, energyVector):
-		if len(energyVector) != len(self.neurons):
+	def setActivationVector(self, activationVector):
+		if len(activationVector) != len(self.neurons):
 			raise Exception('length of energy vector and neurons count are different')
 		for index in range(0, len(self.neurons)):
-			self.neurons[index].energy = energyVector[index]
-		for neuron in self.neurons:
-			neuron.activation()
+			self.neurons[index].activationValue = activationVector[index]
+
 	
 class OutputLayer (Layer):
 	def __init__(self, countOfNeurons, net):
@@ -51,7 +50,7 @@ class OutputLayer (Layer):
 		for neuron in self.neurons:
 			neuron.activation()
 
-	def error(self, targetActivationVector):
+	def error(self, targetActivationVector): #E_total = SUM of neurons-error (neuron.error)
 		sum = 0
 		activationVector = self.getActivationVector()
 		for index in range(0, len(targetActivationVector)):
@@ -60,10 +59,14 @@ class OutputLayer (Layer):
 
 	def backpropagate(self, targetActivationVector):
 		learningRate = 0.0002
-		error = self.error(targetActivationVector):
+		error = self.error(targetActivationVector)
 		outputDelta = [0 for _ in range(0, len(targetActivationVector))]
 		for index in range(0, len(self.neurons)):
-			self.neurons[index].backpropagate(error, targetActivationVector[index])
+			self.neurons[index].backpropagate(error, targetActivationVector)
+	
+	def updateWeights(self):
+		for neuron in self.neurons:
+			neuron.updateWeights()
 			
 class HiddenLayer (InputLayer, OutputLayer):
 	def __init__(self, countOfNeurons, net):
