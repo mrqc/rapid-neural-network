@@ -10,8 +10,8 @@ net.setInputLayer(inputLayer)
 hiddenLayer1 = layer.HiddenLayer(2, net)
 net.addHiddenLayer(hiddenLayer1)
 
-hiddenLayer2 = layer.HiddenLayer(2, net)
-net.addHiddenLayer(hiddenLayer2)
+#hiddenLayer2 = layer.HiddenLayer(2, net)
+#net.addHiddenLayer(hiddenLayer2)
 
 outputLayer = layer.OutputLayer(2, net)
 net.setOutputLayer(outputLayer)
@@ -45,11 +45,14 @@ print net.outputLayer.error(netOutputVector)
 raw_input("press any key....")
 
 print "\n\nTraining (backpropagation) the net on the netInputVector with netOutputVector as golden-standard"
-for trainCycle in range(0, 1000):
+for trainCycle in range(0, 10000):
 	print "Train cycle " + str(trainCycle)
 	net.backpropagate(netOutputVector)
 print net
+print "Training end"
 net.training = False
-print "Error After Training"
 net.perform()
-print net.outputLayer.error(netOutputVector)
+print "Error: " + str(net.outputLayer.error(netOutputVector))
+print "Input: " + str(net.inputLayer.getActivationVector())
+print "Golden-Standard: " + str(netOutputVector)
+print "Output: " + str(net.outputLayer.getActivationVector())

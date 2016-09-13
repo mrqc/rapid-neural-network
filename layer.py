@@ -58,7 +58,6 @@ class OutputLayer (Layer):
 		return sum
 
 	def backpropagate(self, targetActivationVector):
-		learningRate = 0.0002
 		error = self.error(targetActivationVector)
 		outputDelta = [0 for _ in range(0, len(targetActivationVector))]
 		for index in range(0, len(self.neurons) - 1):
