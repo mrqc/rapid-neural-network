@@ -23,7 +23,7 @@ class InputLayer (Layer):
 	def __init__(self, countOfNeurons, net):
 		super(InputLayer, self).__init__(countOfNeurons, net)
 		self.nextLayer = None
-
+	
 	def connectNextLayer(self, nextLayer):
 		self.nextLayer = nextLayer
 
@@ -38,7 +38,7 @@ class OutputLayer (Layer):
 	def __init__(self, countOfNeurons, net):
 		super(OutputLayer, self).__init__(countOfNeurons, net)
 		self.previousLayer = None
-
+	
 	def connectPreviousLayer(self, previousLayer):
 		self.previousLayer = previousLayer
 		for index in range(0, len(self.neurons) - 1):

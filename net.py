@@ -9,9 +9,24 @@ class Net:
 		self.hiddenLayers = []
 		self.outputLayer = None
 		self.training = False
+		self.learningRate = 0.05
 	
 	def addHiddenLayer(self, layer):
 		self.hiddenLayers.append(layer)
+		if len(self.hiddenLayers) == 1:
+			self.inputLayer.connectNextLayer(self.hiddenLayers[0])
+			self.hiddenLayers[0].connectPreviousLayer(self.inputLayer)
+		else:
+			self.hiddenLayers[len(self.hiddenLayers) - 2].connectNextLayer(self.hiddenLayers[len(self.hiddenLayers) - 1])
+			self.hiddenLayers[len(self.hiddenLayers) - 1].connectPreviousLayer(self.hiddenLayers[len(self.hiddenLayers) - 2])
+	
+	def setInputLayer(self, inputLayer):
+		self.inputLayer = inputLayer
+	
+	def setOutputLayer(self, outputLayer):
+		self.outputLayer = outputLayer
+		self.hiddenLayers[len(self.hiddenLayers) - 1].connectNextLayer(self.outputLayer)
+		self.outputLayer.connectPreviousLayer(self.hiddenLayers[len(self.hiddenLayers) - 1])
 	
 	def __str__(self):
 		hiddenLayersString = ""
