@@ -15,14 +15,13 @@ class Neuron:
 		self.weights = [random.uniform(-1, 1) for _ in range(0, countOfWeights)]
 	
 	def __str__(self):
-		return "Weights: " + str(self.weights) + "\n" + str(self.activationValue)
+		return "Weights: " + str(self.weights) + "\nActivation Value: " + str(self.activationValue)
 
 	def transfer(self):
 		inputVector = self.layer.previousLayer.getActivationVector()
 		if len(inputVector) != len(self.weights):
 			raise Exception('length of input vector and weights are different')
 		for index in range(0, len(inputVector)):
-			print str(inputVector[index]) + " * " + str(self.weights[index])
 			self.energy += inputVector[index] * self.weights[index]
 	
 	def activation(self): # sigmoid function
@@ -53,9 +52,12 @@ class Neuron:
 		return self.layer.neurons.index(self)
 
 	def backpropagate(self, errorTotal, targetActivationVector):
-		learningRate = 0.2
+		learningRate = 0.5
 		self.trainedWeights = [0 for _ in range(0, len(self.weights))]
+		print "###"
 		for index in range(0, len(self.weights)):
+			print str(self.errorGradient(targetActivationVector)) + " * " + str(self.activationGradient()) + " * " + str(self.layer.previousLayer.neurons[index].activationValue)
 			self.trainedWeights[index] = self.weights[index] - learningRate * self.errorGradient(targetActivationVector) * self.activationGradient() * self.layer.previousLayer.neurons[index].activationValue
+		print "###"
 		print "actual weights:", str(self.weights)
 		print "trained weights:", str(self.trainedWeights)
