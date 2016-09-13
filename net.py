@@ -32,7 +32,7 @@ class Net:
 	def backpropagate(self, targetOutputVector):
 		self.outputLayer.backpropagate(targetOutputVector)
 		for hiddenLayer in reversed(self.hiddenLayers):
-			hiddenLayer.backpropagate(hiddenLayer.getActivationVector())
+			hiddenLayer.backpropagate(targetOutputVector)
 		self.outputLayer.updateWeights()
 		for hiddenLayer in reversed(self.hiddenLayers):
 			hiddenLayer.updateWeights()

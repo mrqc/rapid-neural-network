@@ -40,13 +40,13 @@ class Neuron:
 		return 0.5 * (targetActivationValue - self.activationValue) ** 2
 
 	def errorGradient(self, targetActivationVector): # d E_total / d out = out - target
-		if isinstance(self.layer, layer.OutputLayer):
-			return self.activationValue - targetActivationVector[self.getIndexInLayer()]
-		elif isinstance(self.layer, layer.HiddenLayer):
+		if isinstance(self.layer, layer.HiddenLayer):
 			sum = 0
-			for index in range(0, len(self.layer.nextLayer.neurons)):
-				sum += self.layer.nextLayer.neurons[index].errorGradient() * self.layer.nextLayer.neurons[index].activationGradient() * self.weights[index]
+			for index in range(0, len(self.layer.nextLayer.neurons) - 1):
+				sum += self.layer.nextLayer.neurons[index].errorGradient(targetActivationVector) * self.layer.nextLayer.neurons[index].activationGradient() * self.layer.nextLayer.neurons[index].weights[self.getIndexInLayer()]
 			return sum
+		elif isinstance(self.layer, layer.OutputLayer):
+			return self.activationValue - targetActivationVector[self.getIndexInLayer()]
 	
 	def getIndexInLayer(self):
 		return self.layer.neurons.index(self)
@@ -54,10 +54,6 @@ class Neuron:
 	def backpropagate(self, errorTotal, targetActivationVector):
 		learningRate = 0.5
 		self.trainedWeights = [0 for _ in range(0, len(self.weights))]
-		print "###"
-		for index in range(0, len(self.weights)):
-			print str(self.errorGradient(targetActivationVector)) + " * " + str(self.activationGradient()) + " * " + str(self.layer.previousLayer.neurons[index].activationValue)
+		for index in range(0, len(self.weights) - 1):
 			self.trainedWeights[index] = self.weights[index] - learningRate * self.errorGradient(targetActivationVector) * self.activationGradient() * self.layer.previousLayer.neurons[index].activationValue
-		print "###"
-		print "actual weights:", str(self.weights)
-		print "trained weights:", str(self.trainedWeights)
+		self.trainedWeights[len(self.weights) - 1] = self.weights[len(self.weights) - 1]

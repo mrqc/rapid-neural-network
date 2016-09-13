@@ -63,4 +63,5 @@ for trainCycle in range(0, 1):
 	print net
 net.training = False
 print "Error After Training"
+net.perform()
 print net.outputLayer.error(netOutputVector)
