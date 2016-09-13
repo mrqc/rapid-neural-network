@@ -10,8 +10,8 @@ net.setInputLayer(inputLayer)
 hiddenLayer1 = layer.HiddenLayer(2, net)
 net.addHiddenLayer(hiddenLayer1)
 
-#hiddenLayer2 = layer.HiddenLayer(2, net)
-#net.addHiddenLayer(hiddenLayer2)
+hiddenLayer2 = layer.HiddenLayer(2, net)
+net.addHiddenLayer(hiddenLayer2)
 
 outputLayer = layer.OutputLayer(2, net)
 net.setOutputLayer(outputLayer)
@@ -41,7 +41,9 @@ netOutputVector = [random.choice([0, 1]) for _ in range(0, len(outputLayer.neuro
 netOutputVector = [0.01, 0.99]
 print "\nError Before Training"
 print net.outputLayer.error(netOutputVector)
+
 raw_input("press any key....")
+
 print "\n\nTraining (backpropagation) the net on the netInputVector with netOutputVector as golden-standard"
 for trainCycle in range(0, 1000):
 	print "Train cycle " + str(trainCycle)

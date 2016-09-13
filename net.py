@@ -10,6 +10,7 @@ class Net:
 		self.outputLayer = None
 		self.training = False
 		self.learningRate = 0.05
+		self.learningRateBias = 0.05
 	
 	def addHiddenLayer(self, layer):
 		self.hiddenLayers.append(layer)
@@ -51,4 +52,3 @@ class Net:
 		self.outputLayer.updateWeights()
 		for hiddenLayer in reversed(self.hiddenLayers):
 			hiddenLayer.updateWeights()
-		

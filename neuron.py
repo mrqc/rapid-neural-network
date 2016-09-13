@@ -55,4 +55,4 @@ class Neuron:
 		self.trainedWeights = [0 for _ in range(0, len(self.weights))]
 		for index in range(0, len(self.weights) - 1):
 			self.trainedWeights[index] = self.weights[index] - self.layer.net.learningRate * self.errorGradient(targetActivationVector) * self.activationGradient() * self.layer.previousLayer.neurons[index].activationValue
-		self.trainedWeights[len(self.weights) - 1] = self.weights[len(self.weights) - 1]
+		self.trainedWeights[len(self.weights) - 1] = self.weights[len(self.weights) - 1] - self.layer.net.learningRateBias * self.errorGradient(targetActivationVector) * self.activationGradient()
