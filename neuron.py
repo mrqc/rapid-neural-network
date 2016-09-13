@@ -9,8 +9,7 @@ class Neuron:
 		self.trainedWeights = None
 		self.energy = 0
 		self.layer = layer
-		self.threshold = -0.5
-		self.activationValue = 0
+		self.activationValue = 1
 	
 	def setCountOfWeights(self, countOfWeights):
 		self.weights = [random.uniform(-1, 1) for _ in range(0, countOfWeights)]
@@ -23,6 +22,7 @@ class Neuron:
 		if len(inputVector) != len(self.weights):
 			raise Exception('length of input vector and weights are different')
 		for index in range(0, len(inputVector)):
+			print str(inputVector[index]) + " * " + str(self.weights[index])
 			self.energy += inputVector[index] * self.weights[index]
 	
 	def activation(self): # sigmoid function

@@ -5,7 +5,7 @@ class Layer(object):
 		if not hasattr(self, "net"):
 			self.net = net
 		if not hasattr(self, "neurons"):
-			self.neurons = [neuron.Neuron(self) for _ in range(0, countOfNeurons)]
+			self.neurons = [neuron.Neuron(self) for _ in range(0, countOfNeurons + 1)]
 	
 	def __str__(self):
 		neuronsString = ""
@@ -28,12 +28,12 @@ class InputLayer (Layer):
 		self.nextLayer = nextLayer
 
 	def setActivationVector(self, activationVector):
+		activationVector.append(1)
 		if len(activationVector) != len(self.neurons):
 			raise Exception('length of energy vector and neurons count are different')
 		for index in range(0, len(self.neurons)):
 			self.neurons[index].activationValue = activationVector[index]
 
-	
 class OutputLayer (Layer):
 	def __init__(self, countOfNeurons, net):
 		super(OutputLayer, self).__init__(countOfNeurons, net)
@@ -41,14 +41,14 @@ class OutputLayer (Layer):
 
 	def connectPreviousLayer(self, previousLayer):
 		self.previousLayer = previousLayer
-		for neuron in self.neurons:
-			neuron.setCountOfWeights(len(self.previousLayer.neurons))
+		for index in range(0, len(self.neurons) - 1):
+			self.neurons[index].setCountOfWeights(len(self.previousLayer.neurons))
 	
 	def transfer(self):
-		for neuron in self.neurons:
-			neuron.transfer()
-		for neuron in self.neurons:
-			neuron.activation()
+		for index in range(0, len(self.neurons) - 1):
+			self.neurons[index].transfer()
+		for index in range(0, len(self.neurons) - 1):
+			self.neurons[index].activation()
 
 	def error(self, targetActivationVector): #E_total = SUM of neurons-error (neuron.error)
 		sum = 0

@@ -13,8 +13,8 @@ inputLayer.connectNextLayer(hiddenLayer1)
 hiddenLayer1.connectPreviousLayer(inputLayer)
 net.addHiddenLayer(hiddenLayer1)
 
-hiddenLayer1.neurons[0].weights = [0.15, 0.20]
-hiddenLayer1.neurons[1].weights = [0.25, 0.30]
+hiddenLayer1.neurons[0].weights = [0.15, 0.20, 0.35]
+hiddenLayer1.neurons[1].weights = [0.25, 0.30, 0.35]
 
 #hiddenLayer2 = layer.HiddenLayer(2, net)
 #hiddenLayer1.connectNextLayer(hiddenLayer2)
@@ -27,8 +27,8 @@ hiddenLayer1.connectNextLayer(outputLayer)
 #outputLayer.connectPreviousLayer(hiddenLayer2)
 outputLayer.connectPreviousLayer(hiddenLayer1)
 
-outputLayer.neurons[0].weights = [0.4, 0.45]
-outputLayer.neurons[1].weights = [0.5, 0.55]
+outputLayer.neurons[0].weights = [0.4, 0.45, 0.60]
+outputLayer.neurons[1].weights = [0.5, 0.55, 0.60]
 
 netInputVector = [0.05, 0.1]
 net.inputLayer.setActivationVector(netInputVector)
