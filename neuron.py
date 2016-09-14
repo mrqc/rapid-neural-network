@@ -29,7 +29,7 @@ class Neuron:
 		try:
 			self.activationValue = 1 / (1 + math.exp(-self.energy))
 		except OverflowError:
-			self.activationValue = 0.01
+			self.activationValue = 0
 
 	def activationGradient(self): # d out / d net out = out * (1 - out)
 		return self.activationValue * (1 - self.activationValue)
