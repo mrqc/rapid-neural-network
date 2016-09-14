@@ -23,16 +23,18 @@ class InputLayer (Layer):
 	def __init__(self, countOfNeurons, net):
 		super(InputLayer, self).__init__(countOfNeurons, net)
 		self.nextLayer = None
+		self.activationVector = None
 	
 	def connectNextLayer(self, nextLayer):
 		self.nextLayer = nextLayer
 
 	def setActivationVector(self, activationVector):
-		activationVector.append(1)
-		if len(activationVector) != len(self.neurons):
+		self.activationVector = list(activationVector)
+		self.activationVector.append(1)
+		if len(self.activationVector) != len(self.neurons):
 			raise Exception('length of energy vector and neurons count are different')
 		for index in range(0, len(self.neurons)):
-			self.neurons[index].activationValue = activationVector[index]
+			self.neurons[index].activationValue = self.activationVector[index]
 
 class OutputLayer (Layer):
 	def __init__(self, countOfNeurons, net):

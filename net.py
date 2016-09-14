@@ -8,8 +8,7 @@ class Net:
 		self.inputLayer = None
 		self.hiddenLayers = []
 		self.outputLayer = None
-		self.training = False
-		self.learningRate = 0.5
+		self.learningRate = 0.05
 		self.learningRateBias = 0.05
 	
 	def addHiddenLayer(self, layer):

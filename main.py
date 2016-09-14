@@ -2,39 +2,41 @@ import net
 import layer
 import random
 
-# net setup
+print "Initialising the training data (golden standard)"
+netInputVector = [[0.05, 0.1], [0.1, 0.9]]
+netOutputVector = [[0.01, 0.99], [0.5, 0.5]]
+
+print "Setting up the net"
 net = net.Net()
 inputLayer = layer.InputLayer(2, net)
 net.setInputLayer(inputLayer)
-hiddenLayer1 = layer.HiddenLayer(2, net)
+hiddenLayer1 = layer.HiddenLayer(3, net)
 net.addHiddenLayer(hiddenLayer1)
+hiddenLayer2 = layer.HiddenLayer(4, net)
+net.addHiddenLayer(hiddenLayer2)
 outputLayer = layer.OutputLayer(2, net)
 net.setOutputLayer(outputLayer)
 
-netInputVector = [0.05, 0.1]
-net.inputLayer.setActivationVector(netInputVector)
-hiddenLayer1.neurons[0].weights = [0.15, 0.20, 0.35]
-hiddenLayer1.neurons[1].weights = [0.25, 0.30, 0.35]
-outputLayer.neurons[0].weights = [0.4, 0.45, 0.60]
-outputLayer.neurons[1].weights = [0.5, 0.55, 0.60]
-print net
-net.perform()
-for hiddenLayer in net.hiddenLayers:
-	print hiddenLayer.getActivationVector()
-print net.outputLayer.getActivationVector()
+print "Training the net"
+for index in range(0, len(netInputVector)):
+	net.inputLayer.setActivationVector(netInputVector[index])
+	net.perform()
+	error = net.outputLayer.error(netOutputVector[index])
+	epoch = 1
+	while error > 0.01:
+		net.backpropagate(netOutputVector[index])
+		net.perform()
+		error = net.outputLayer.error(netOutputVector[index])
+		epoch += 1
+	#print net
+	print "Training epochs: " + str(epoch)
+	print "Input: " + str(net.inputLayer.getActivationVector())
+	print "Golden-Standard: " + str(netOutputVector[index])
+	print "Output: " + str(net.outputLayer.getActivationVector())
+	print "Error after training: " + str(error)
 
-net.training = True
-netOutputVector = [0.01, 0.99]
-print "Error of net:", net.outputLayer.error(netOutputVector)
-raw_input("press any key....")
-
-for trainCycle in range(0, 10000):
-	print "Train cycle " + str(trainCycle)
-	net.backpropagate(netOutputVector)
-print net
-net.training = False
-net.perform()
-print "Error: " + str(net.outputLayer.error(netOutputVector))
-print "Input: " + str(net.inputLayer.getActivationVector())
-print "Golden-Standard: " + str(netOutputVector)
-print "Output: " + str(net.outputLayer.getActivationVector())
+print "Testing the net"
+for index in range(0, len(netInputVector)):
+	net.inputLayer.setActivationVector(netInputVector[index])
+	net.perform()
+	print "Error for test data " + str(index) + ": " + str(net.outputLayer.error(netOutputVector[index]))
