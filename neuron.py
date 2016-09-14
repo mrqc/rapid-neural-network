@@ -23,13 +23,10 @@ class Neuron:
 		if len(inputVector) != len(self.weights):
 			raise Exception('length of input vector and weights are different')
 		for index in range(0, len(inputVector)):
-			print str(inputVector[index]) + " * " + str(self.weights[index])
 			self.energy += inputVector[index] * self.weights[index]
-		print self.energy
 	
 	def activation(self): # sigmoid function
 		try:
-			print "last: " + str(self.energy)
 			self.activationValue = 1 / (1 + math.exp(-self.energy))
 		except OverflowError:
 			self.activationValue = 0.01
@@ -59,4 +56,4 @@ class Neuron:
 		self.trainedWeights = [0 for _ in range(0, len(self.weights))]
 		for index in range(0, len(self.weights) - 1):
 			self.trainedWeights[index] = self.weights[index] - self.layer.net.learningRate * self.errorGradient(targetActivationVector) * self.activationGradient() * self.layer.previousLayer.neurons[index].activationValue
-		self.trainedWeights[len(self.weights) - 1] = self.weights[len(self.weights) - 1]# - self.layer.net.learningRateBias * self.errorGradient(targetActivationVector) * self.activationGradient()
+		self.trainedWeights[len(self.weights) - 1] = self.weights[len(self.weights) - 1] - self.layer.net.learningRateBias * self.errorGradient(targetActivationVector) * self.activationGradient()
