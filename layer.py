@@ -1,11 +1,11 @@
 import neuron
 
 class Layer(object):
-	def __init__(self, countOfNeurons, net):
+	def __init__(self, countOfNeurons, net, neuronClass):
 		if not hasattr(self, "net"):
 			self.net = net
 		if not hasattr(self, "neurons"):
-			self.neurons = [neuron.Neuron(self) for _ in range(0, countOfNeurons + 1)]
+			self.neurons = [neuronClass(self) for _ in range(0, countOfNeurons + 1)]
 	
 	def __str__(self):
 		neuronsString = ""
@@ -20,8 +20,8 @@ class Layer(object):
 		return [neuron.energy for neuron in self.neurons]
 	
 class InputLayer (Layer):
-	def __init__(self, countOfNeurons, net):
-		super(InputLayer, self).__init__(countOfNeurons, net)
+	def __init__(self, countOfNeurons, net, neuronClass):
+		super(InputLayer, self).__init__(countOfNeurons, net, neuronClass)
 		self.nextLayer = None
 		self.activationVector = None
 	
@@ -37,8 +37,8 @@ class InputLayer (Layer):
 			self.neurons[index].activationValue = self.activationVector[index]
 
 class OutputLayer (Layer):
-	def __init__(self, countOfNeurons, net):
-		super(OutputLayer, self).__init__(countOfNeurons, net)
+	def __init__(self, countOfNeurons, net, neuronClass):
+		super(OutputLayer, self).__init__(countOfNeurons, net, neuronClass)
 		self.previousLayer = None
 	
 	def connectPreviousLayer(self, previousLayer):
@@ -70,5 +70,5 @@ class OutputLayer (Layer):
 			neuron.updateWeights()
 			
 class HiddenLayer (InputLayer, OutputLayer):
-	def __init__(self, countOfNeurons, net):
-		super(HiddenLayer, self).__init__(countOfNeurons, net)
+	def __init__(self, countOfNeurons, net, neuronClass):
+		super(HiddenLayer, self).__init__(countOfNeurons, net, neuronClass)

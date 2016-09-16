@@ -1,6 +1,7 @@
 import net
 import layer
 import random
+import neuron
 
 print "Initialising the training data (golden standard)"
 netInputVector = [[0.05, 0.1], [0.1, 0.2]]
@@ -8,13 +9,13 @@ netOutputVector = [[0.01, 0.99], [0.04, 0.99]]
 
 print "Setting up the net"
 net = net.Net()
-inputLayer = layer.InputLayer(2, net)
+inputLayer = layer.InputLayer(2, net, neuron.SigmoidNeuron)
 net.setInputLayer(inputLayer)
-hiddenLayer1 = layer.HiddenLayer(3, net)
+hiddenLayer1 = layer.HiddenLayer(3, net, neuron.SigmoidNeuron)
 net.addHiddenLayer(hiddenLayer1)
-hiddenLayer2 = layer.HiddenLayer(5, net)
+hiddenLayer2 = layer.HiddenLayer(5, net, neuron.SigmoidNeuron)
 net.addHiddenLayer(hiddenLayer2)
-outputLayer = layer.OutputLayer(2, net)
+outputLayer = layer.OutputLayer(2, net, neuron.SigmoidNeuron)
 net.setOutputLayer(outputLayer)
 
 print "Training the net"

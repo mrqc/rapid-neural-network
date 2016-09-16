@@ -24,7 +24,14 @@ class Neuron:
 			raise Exception('length of input vector and weights are different')
 		for index in range(0, len(inputVector)):
 			self.energy += inputVector[index] * self.weights[index]
-	
+
+	def updateWeights(self):
+		self.weights = self.trainedWeights
+
+	def getIndexInLayer(self):
+		return self.layer.neurons.index(self)
+
+class SigmoidNeuron (Neuron):
 	def activation(self): # sigmoid function
 		try:
 			self.activationValue = 1 / (1 + math.exp(-self.energy))
@@ -34,9 +41,7 @@ class Neuron:
 	def activationGradient(self): # d out / d net out = out * (1 - out)
 		return self.activationValue * (1 - self.activationValue)
 
-	def updateWeights(self):
-		self.weights = self.trainedWeights
-	
+
 	def error(self, targetActivationValue): # E = 1/2 * (target - output) ^ 2 mean squared error
 		return 0.5 * (targetActivationValue - self.activationValue) ** 2
 
@@ -49,9 +54,6 @@ class Neuron:
 		elif isinstance(self.layer, layer.OutputLayer):
 			return self.activationValue - targetActivationVector[self.getIndexInLayer()]
 	
-	def getIndexInLayer(self):
-		return self.layer.neurons.index(self)
-
 	def backpropagate(self, errorTotal, targetActivationVector):
 		self.trainedWeights = [0 for _ in range(0, len(self.weights))]
 		for index in range(0, len(self.weights) - 1):
