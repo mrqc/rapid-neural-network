@@ -30,6 +30,13 @@ class Neuron:
 
 	def getIndexInLayer(self):
 		return self.layer.neurons.index(self)
+	
+class StepNeuron (Neuron):
+	def activation(self):
+		if self.energy > self.weights[len(self.weights) - 1]:
+			self.activationValue = 1
+		else:
+			self.activationValue = 0
 
 class SigmoidNeuron (Neuron):
 	def activation(self): # sigmoid function

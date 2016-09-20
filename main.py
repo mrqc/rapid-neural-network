@@ -2,6 +2,8 @@ import net
 import layer
 import random
 import neuron
+import sys
+import time
 
 print "Initialising the training data (golden standard)"
 netInputVector = [[0.05, 0.1], [0.1, 0.2]]
@@ -37,7 +39,7 @@ print "Training the net"
 #	print "Error after training: " + str(error)
 
 error = 1
-while error > 0.01:
+while error > 0.0003:
 	error = 0
 	for index in range(0, len(netInputVector)):
 		net.inputLayer.setActivationVector(netInputVector[index])
@@ -47,7 +49,8 @@ while error > 0.01:
 		net.perform()
 		error += net.outputLayer.error(netOutputVector[index])
 	print "Error after training: " + str(error)
-
+	sys.stdout.write("\033[F")
+print ""
 print "Testing the net"
 for index in range(0, len(netInputVector)):
 	net.inputLayer.setActivationVector(netInputVector[index])
