@@ -39,10 +39,11 @@ print "Training the net"
 #	print "Error after training: " + str(error)
 
 error = 1
-while error > 0.0003:
+while error > 0.03:
 	error = 0
 	for index in range(0, len(netInputVector)):
 		net.inputLayer.setActivationVector(netInputVector[index])
+		net.perform()
 		net.backpropagate(netOutputVector[index])
 	for index in range(0, len(netInputVector)):
 		net.inputLayer.setActivationVector(netInputVector[index])
